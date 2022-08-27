@@ -1,0 +1,133 @@
+﻿@model Subscriptions
+@using static Hrms.Helpers.ApplicationHelper
+@section LinkScriptSection{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@ViewBag.PageType' == '@EnumPageType.View') {
+                DisabledView();
+            }
+            if (@Model.Id > 0) {
+                $('#StartDate').val('@Model.StartDate.ToString("dd-MMM-yyyy")');
+                $('#EndDate').val('@Model.EndDate.ToString("dd-MMM-yyyy")');
+            }
+            else {
+                $('#StartDate').val('@Model.StartDate.ToString("dd-MMM-yyyy")');
+                $('#EndDate').val('@Model.EndDate.ToString("dd-MMM-yyyy")');
+            }
+        });
+    </script>
+}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <form asp-controller="@ViewBag.ControllerURL" asp-action="save" autocomplete="off" data-ajax-begin="OnBegin"
+              data-ajax-complete="OnComplete" data-ajax-failure="OnFailed"
+              data-ajax-success="OnSuccess" data-ajax="true" data-ajax-method="post">
+            <input asp-for="Id" hidden />
+            <input type="hidden" value="@(Model.UserAccounts.FirstOrDefault() != null ? Model.UserAccounts.FirstOrDefault().Id : 0)" asp-for="UserId" />
+            <input asp-for="CreatedDateTime" hidden />
+            <input asp-for="UtcCreatedDateTime" hidden />
+            <input asp-for="CreatedBy" hidden />
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label asp-for="Code">Code <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Title">Title <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="StartDate">Start Date <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="StartDate" class="form-control dateselect" />
+                    <span asp-validation-for="StartDate" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="EndDate">End Date <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="EndDate" class="form-control dateselect" />
+                    <span asp-validation-for="EndDate" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="NoOfMonth">No Of Month <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="NoOfMonth" class="form-control" />
+                    <span asp-validation-for="NoOfMonth" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="CountryId" class="form-control-label">Country <span class="text-danger">*</span></label>
+                    <select asp-for="CountryId" class="form-control" data-placeholder="Select a Country">
+                        <option value="">Select</option>
+                        @if (ViewBag.CountryRecords != null)
+                        {
+                            foreach (var rec in ViewBag.CountryRecords)
+                            {
+                                <option value="@rec.Id">@rec.Name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="CountryId" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="TimeZoneId" class="form-control-label">Time Zone <span class="text-danger">*</span></label>
+                    <select asp-for="TimeZoneId" class="form-control" data-placeholder="Select a Timezone">
+                        <option value="">Select</option>
+                        @if (ViewBag.TimeZone != null)
+                        {
+                            foreach (var rec in ViewBag.TimeZone)
+                            {
+                                <option value="@rec">@rec</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="TimeZoneId" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Username">Username <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Password">Password <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="EmailAddress">Email <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="EmailAddress" class="form-control" />
+                    <span asp-validation-for="EmailAddress" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="ContactName">Contact Name <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="ContactName" class="form-control" />
+                    <span asp-validation-for="ContactName" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="ContactEmail">Contact Email <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="ContactEmail" class="form-control" />
+                    <span asp-validation-for="ContactEmail" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="ContactNo">Contact No. <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="ContactNo" class="form-control" />
+                    <span asp-validation-for="ContactNo" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Status" class="form-control-label">Status <span class="text-danger">*</span></label>
+                    <select asp-for="Status" class="form-control Select2" data-placeholder="Select a Status">
+                        <option value="">--Select--</option>
+                        <option value="@EnumEnableDisable.Enable">@EnumEnableDisable.Enable</option>
+                        <option value="@EnumEnableDisable.Disable">@EnumEnableDisable.Disable</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger pull-left"></span>
+                </div>
+                <div class="col-md-12">
+                    @if (ViewBag.PageType != EnumPageType.View)
+                    {
+                        <button type="submit" class="btn btn-primary float-right btn-save"><i class="fa fa-save"></i> | Save</button>
+                    }
+                    <a type="button" href="/@ViewBag.ControllerURL" class="btn btn-dark float-right btn-back"><i class="fa fa-arrow-left"></i> | Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,280 @@
+﻿
+@{ 
+    string logoutURL = ViewBag.WebsiteURL + "home/logout";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>@ViewBag.WebsiteName</title>
+    <link rel="icon" href="~/Hrms/images/hrms_logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet" asp-append-version="true" />
+    <link href="~/Hrms/css/themes/lite-purple.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/Hrms/css/plugins/perfect-scrollbar.min.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Hrms/css/plugins/datatables.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/Hrms/css/plugins/toastr.css" asp-append-version="true" />
+    <link href="~/Hrms/DatetimePicker/DateTimePicker.css" rel="stylesheet" />
+    <link href="~/Hrms/css/hrms.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Hrms/css/plugins/sweetalert2.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <link href="~/Hrms/css/hrms.css" rel="stylesheet" />
+    <style>
+        .DropDowns {
+            margin-left: -450px;
+        }
+    </style>
+</head>
+
+<body class="text-left">
+    <div class="app-admin-wrap layout-sidebar-large">
+        <div class="main-header">
+            <div class="logo">
+                <img src="~/Hrms/images/hrms_logo.png" alt="">
+            </div>
+            <div class="menu-toggle">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <div style="margin: auto">
+                <div class="DropDowns">
+                @if (ViewBag.SubscriptionRecords != null)
+                {
+                    <select class="form-control" style="width:280px;" id="subscription_input" data-href="/home/SetSubscription">
+                        @foreach (Subscriptions rec in ViewBag.SubscriptionRecords)
+                        {
+                            bool selected_option = false;
+                            if (ViewBag.UserRecord.SubscriptionId != null)
+                            {
+                                if (ViewBag.UserRecord.SubscriptionId == rec.Id)
+                                {
+                                    selected_option = true;
+                                }
+                            }
+                            if (selected_option)
+                            {
+                                <option value="@rec.Id" selected="selected">@rec.Title</option>
+                            }
+                            else
+                            {
+                                <option value="@rec.Id">@rec.Title</option>
+                            }
+                        }
+                    </select>
+                }
+
+                @if (ViewBag.SubscriptionOrganizationRecords != null)
+                {
+                    <select class="form-control changeOrganization" style="width:280px;" id="organization_input">
+                        @foreach (Organizations rec in ViewBag.SubscriptionOrganizationRecords)
+                        {
+                            <option value="@rec.Id">@rec.Name</option>
+                        }
+                    </select>
+                }
+                </div>
+            </div>
+            <div class="header-part-right">
+                <!-- Full screen toggle -->
+                <i class="i-Full-Screen header-icon d-none d-sm-inline-block" data-fullscreen></i>
+                <!-- Grid menu Dropdown -->
+                <div class="dropdown">
+                    <i class="i-Safe-Box text-muted header-icon" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <div class="menu-icon-grid">
+                            <a href="#"><i class="i-Shop-4"></i> Home</a>
+                            <a href="#"><i class="i-Library"></i> UI Kits</a>
+                            <a href="#"><i class="i-Drop"></i> Apps</a>
+                            <a href="#"><i class="i-File-Clipboard-File--Text"></i> Forms</a>
+                            <a href="#"><i class="i-Checked-User"></i> Sessions</a>
+                            <a href="#"><i class="i-Ambulance"></i> Support</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Notificaiton -->
+                <div class="dropdown">
+                    <div class="badge-top-container" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="badge badge-primary">3</span>
+                        <i class="i-Bell text-muted header-icon"></i>
+                    </div>
+                    <!-- Notification dropdown -->
+                    <div class="dropdown-menu dropdown-menu-right notification-dropdown rtl-ps-none" aria-labelledby="dropdownNotification" data-perfect-scrollbar data-suppress-scroll-x="true">
+                        <div class="dropdown-item d-flex">
+                            <div class="notification-icon">
+                                <i class="i-Speach-Bubble-6 text-primary mr-1"></i>
+                            </div>
+                            <div class="notification-details flex-grow-1">
+                                <p class="m-0 d-flex align-items-center">
+                                    <span>New message</span>
+                                    <span class="badge badge-pill badge-primary ml-1 mr-1">new</span>
+                                    <span class="flex-grow-1"></span>
+                                    <span class="text-small text-muted ml-auto">10 sec ago</span>
+                                </p>
+                                <p class="text-small text-muted m-0">James: Hey! are you busy?</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-item d-flex">
+                            <div class="notification-icon">
+                                <i class="i-Receipt-3 text-success mr-1"></i>
+                            </div>
+                            <div class="notification-details flex-grow-1">
+                                <p class="m-0 d-flex align-items-center">
+                                    <span>New order received</span>
+                                    <span class="badge badge-pill badge-success ml-1 mr-1">new</span>
+                                    <span class="flex-grow-1"></span>
+                                    <span class="text-small text-muted ml-auto">2 hours ago</span>
+                                </p>
+                                <p class="text-small text-muted m-0">1 Headphone, 3 iPhone x</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-item d-flex">
+                            <div class="notification-icon">
+                                <i class="i-Empty-Box text-danger mr-1"></i>
+                            </div>
+                            <div class="notification-details flex-grow-1">
+                                <p class="m-0 d-flex align-items-center">
+                                    <span>Product out of stock</span>
+                                    <span class="badge badge-pill badge-danger ml-1 mr-1">3</span>
+                                    <span class="flex-grow-1"></span>
+                                    <span class="text-small text-muted ml-auto">10 hours ago</span>
+                                </p>
+                                <p class="text-small text-muted m-0">Headphone E67, R98, XL90, Q77</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-item d-flex">
+                            <div class="notification-icon">
+                                <i class="i-Data-Power text-success mr-1"></i>
+                            </div>
+                            <div class="notification-details flex-grow-1">
+                                <p class="m-0 d-flex align-items-center">
+                                    <span>Server Up!</span>
+                                    <span class="badge badge-pill badge-success ml-1 mr-1">3</span>
+                                    <span class="flex-grow-1"></span>
+                                    <span class="text-small text-muted ml-auto">14 hours ago</span>
+                                </p>
+                                <p class="text-small text-muted m-0">Server rebooted successfully</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Notificaiton End -->
+                <!-- User avatar dropdown -->
+                <div class="dropdown">
+                    <div class="user col align-self-end">
+                        <img src="~/Hrms/images/faces/1.jpg" id="userDropdown" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <div class="dropdown-header">
+                                <i class="i-Lock-User mr-1"></i> Welcome
+                            </div>
+                            <a class="dropdown-item">Account settings</a>
+                            <a class="dropdown-item">Billing history</a>
+                            <a class="dropdown-item" href="@logoutURL">Sign out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="side-content-wrap">
+            <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
+                <ul class="navigation-left">
+                    <li class="nav-item" data-item="dashboard">
+                        <a class="nav-item-hold" href="#"><i class="nav-icon i-Bar-Chart"></i><span class="nav-text">Dashboard</span></a>
+                        <div class="triangle"></div>
+                    </li>
+                    <li class="nav-item" data-item="coremodule">
+                        <a class="nav-item-hold" href="#"><i class="nav-icon i-Forsquare"></i><span class="nav-text">Core Module</span></a>
+                        <div class="triangle"></div>
+                    </li>
+                    <li class="nav-item" data-item="expense">
+                        <a class="nav-item-hold" href="#"><i class="nav-icon i-Money-Bag"></i><span class="nav-text">Expense</span></a>
+                        <div class="triangle"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar-left-secondary rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
+                <ul class="childNav" data-parent="dashboard">
+                    <li class="nav-item"><a href="home"><i class="nav-icon i-Dashboard"></i><span class="item-name">Dashboard</span></a></li>
+                </ul>
+                <ul class="childNav" data-parent="coremodule">
+                    <li class="nav-item"><a href="@string.Concat(ViewBag.WebsiteURL,"Subscriptions")"><i class="nav-icon i-Communication-Tower"></i><span class="item-name">Subscription</span></a></li>
+                    <li class="nav-item"><a href="@string.Concat(ViewBag.WebsiteURL,"organizations")"><i class="nav-icon i-Data-Compress"></i><span class="item-name">Organization</span></a></li>
+                    <li class="nav-item"><a href="@string.Concat(ViewBag.WebsiteURL,"roles")"><i class="nav-icon i-Lock-User"></i><span class="item-name">Role</span></a></li>
+                    <li class="nav-item"><a href="@string.Concat(ViewBag.WebsiteURL,"users")"><i class="nav-icon i-Add-UserStar"></i><span class="item-name">User Account</span></a></li>
+                </ul>
+                <ul class="childNav" data-parent="expense">
+                    <li class="nav-item"><a href="@string.Concat(ViewBag.WebsiteURL,"expensetypes")"><i class="nav-icon i-Money1"></i><span class="item-name">Expense Type</span></a></li>
+                    <li class="nav-item"><a href="@string.Concat(ViewBag.WebsiteURL,"expenses")"><i class="nav-icon i-Money-2"></i><span class="item-name">Expense</span></a></li>
+                </ul>
+            </div>
+            <div class="sidebar-overlay"></div>
+        </div>
+        <!-- =============== Left side End ================-->
+        <div class="main-content-wrap sidenav-open d-flex flex-column">
+            <!-- ============ Body content start ============= -->
+            <div class="main-content">
+                <div class="breadcrumb">
+                    <h1 class="mr-2">HRMS</h1>
+                    <ul>
+                        <li><a href="@ViewBag.ControllerURL">@ViewBag.ControllerURL.ToUpper()</a></li>
+                        <li>Dashboard</li>
+                    </ul>
+                </div>
+                <div class="separator-breadcrumb border-top"></div>
+                @RenderBody()
+                <!-- end of row-->
+                <!-- end of main-content -->
+            </div><!-- Footer Start -->
+            @*<div class="flex-grow-1"></div>
+                <div class="app-footer">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <p><strong>Gull - Laravel + Bootstrap 4 admin template</strong></p>
+                            <p>
+                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Libero quis beatae officia saepe perferendis voluptatum minima eveniet voluptates dolorum, temporibus nisi maxime nesciunt totam repudiandae commodi sequi dolor quibusdam
+                                <sunt></sunt>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="footer-bottom border-top pt-3 d-flex flex-column flex-sm-row align-items-center">
+                        <a class="btn btn-primary text-white btn-rounded" href="https://themeforest.net/item/gull-bootstrap-laravel-admin-dashboard-template/23101970" target="_blank">Buy Gull HTML</a>
+                        <span class="flex-grow-1"></span>
+                        <div class="d-flex align-items-center">
+                            <img class="logo" src="~/Hrms/images/logo.png" alt="">
+                            <div>
+                                <p class="m-0">&copy; 2018 Gull HTML</p>
+                                <p class="m-0">All rights reserved</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            <!-- fotter end -->
+        </div>
+    </div><!-- ============ Search UI Start ============= -->
+    <!-- ============ Search UI End ============= -->
+    <script src="~/Hrms/js/plugins/jquery-3.3.1.min.js" asp-append-version="true"></script>
+    <script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Hrms/js/plugins/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/plugins/perfect-scrollbar.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/scripts/script.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/scripts/sidebar.large.script.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/plugins/toastr.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/scripts/toastr.script.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/plugins/datatables.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/scripts/datatables.script.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/Hrms.js" asp-append-version="true"></script>
+    <script src="~/Hrms/DatetimePicker/DateTimePicker.js"></script>
+    <script src="~/Hrms/js/scripts/sweetalert.script.min.js"></script>
+    <script src="~/Hrms/js/plugins/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    @if (IsSectionDefined("LinkScriptSection"))
+    {
+@RenderSection("LinkScriptSection");
+}
+</body>
+</html>

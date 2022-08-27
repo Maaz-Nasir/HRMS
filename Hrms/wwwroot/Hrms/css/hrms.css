@@ -1,0 +1,163 @@
+﻿form .btn {
+    margin-top: 30px;
+}
+.form-control {
+    background: #fff;
+}
+
+.btn-back {
+    margin-right: 5px;
+}
+
+/*Bootstrap Calendar*/
+.datepicker {
+    border-radius: 0;
+    padding: 0;
+}
+
+.datepicker-days table thead, .datepicker-days table tbody, .datepicker-days table tfoot {
+    padding: 10px;
+    display: list-item;
+}
+
+.datepicker-days table thead, .datepicker-months table thead, .datepicker-years table thead, .datepicker-decades table thead, .datepicker-centuries table thead {
+    background: #3546b3;
+    color: #ffffff;
+    border-radius: 0;
+}
+
+    .datepicker-days table thead tr:nth-child(2n+0) td, .datepicker-days table thead tr:nth-child(2n+0) th {
+        border-radius: 3px;
+    }
+
+    .datepicker-days table thead tr:nth-child(3n+0) {
+        text-transform: uppercase;
+        font-weight: 300 !important;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+.table-condensed > tbody > tr > td, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > td, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > thead > tr > th {
+    padding: 11px 13px;
+}
+
+.datepicker-months table thead td, .datepicker-months table thead th, .datepicker-years table thead td, .datepicker-years table thead th, .datepicker-decades table thead td, .datepicker-decades table thead th, .datepicker-centuries table thead td, .datepicker-centuries table thead th {
+    border-radius: 0;
+}
+
+.datepicker td, .datepicker th {
+    border-radius: 50%;
+    padding: 0 12px;
+}
+
+.datepicker-days table thead, .datepicker-months table thead, .datepicker-years table thead, .datepicker-decades table thead, .datepicker-centuries table thead {
+    background: #3546b3;
+    color: #ffffff;
+    border-radius: 0;
+}
+
+.datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover {
+    background-image: none;
+}
+
+.datepicker .prev, .datepicker .next {
+    color: rgba(255, 255, 255, 0.5);
+    transition: 0.3s;
+    width: 37px;
+    height: 37px;
+}
+
+    .datepicker .prev:hover, .datepicker .next:hover {
+        background: transparent;
+        color: rgba(255, 255, 255, 0.99);
+        font-size: 21px;
+    }
+
+.datepicker .datepicker-switch {
+    font-size: 24px;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+    .datepicker .datepicker-switch:hover {
+        color: rgba(255, 255, 255, 0.7);
+        background: transparent;
+    }
+
+.datepicker table tr td span {
+    border-radius: 2px;
+    margin: 3%;
+    width: 27%;
+}
+
+    .datepicker table tr td span.active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover {
+        background-color: #3546b3;
+        background-image: none;
+    }
+
+.dropdown-menu {
+    border: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.datepicker-dropdown.datepicker-orient-top:before {
+    border-top: 7px solid rgba(0,0,0,.1);
+}
+/*Bootstrap Calendar*/
+
+/*Select 2 Start*/
+.select2-container--default .select2-selection--single {
+    border: 1px solid #ced4da;
+    height: calc(1.9695rem + 2px);
+}
+    .select2-container--default .select2-selection--single .select2-selection__arrow b {
+        margin-top: 0px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 32px;
+    }
+    .select2-container--default .select2-selection--single:focus {
+        color: #665c70;
+        background-color: #fff;
+        border-color: #a679d2;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgb(102 51 153 / 25%);
+    }
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #a679d2;
+}
+    .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+        border: 1px solid #a679d2;
+    }
+/*Select 2 End*/
+/*JQuery DataTable Start*/
+.fa-spin {
+    color: #663399;
+}
+#DataTables_Table_0_wrapper .dt-buttons .buttons-copy:before {
+    font-family: FontAwesome;
+    content: "\F0C5  ";
+}
+
+#DataTables_Table_0_wrapper .dt-buttons .buttons-excel:before, #DataTables_Table_0_wrapper .dt-buttons .buttons-csv:before {
+    font-family: FontAwesome;
+    content: "\f1c3  ";
+}
+
+#DataTables_Table_0_wrapper .dt-buttons .buttons-pdf:before {
+    font-family: FontAwesome;
+    content: "\f1c1  ";
+}
+
+#DataTables_Table_0_wrapper .dt-buttons .buttons-print:before {
+    font-family: FontAwesome;
+    content: "\f02f  ";
+}
+
+#DataTables_Table_0_wrapper .dt-buttons .buttons-html5, .buttons-print {
+    border: 1px solid #663399;
+    color: #663399 !important;
+    font-weight: 700;
+    content: "\f09a";
+}
+/*JQuery DataTable End*/

@@ -1,0 +1,76 @@
+﻿<script>
+    function ServerSideDataTable(columns) {
+        try {
+            $(".DataGrid").DataTable({
+                dom: '<""<"row"<"col"l><"col"B><"col"f>>>rtip',
+                "processing": true,
+                "language": {
+                    processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+                },
+                "serverSide": true,
+                "searchable": true,
+                "filter": true,
+                "ajax": {
+                    "url": "@ViewBag.PageURL/Listener",
+                    "type": "post",
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false,
+                }],
+                "columns": columns,
+                "lengthMenu": [[25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 1000, 1500, 2000, 3000, 4000, 5000], [25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 1000, 1500, 2000, 3000, 4000, 5000]]
+            });
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+    function Delete(Id) {
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0CC27E',
+            cancelButtonColor: '#FF586B',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            confirmButtonClass: 'btn btn-success mr-5',
+            cancelButtonClass: 'btn btn-danger',
+            buttonsStyling: false
+        }).then(function () {
+            $.ajax({
+                url: "@ViewBag.PageURL/delete",
+                type: "post",
+                data: { Id: Id },
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        toastr.success(response.message, "Deleted Successfully", {
+                            timeOut: "5000"
+                        });
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        toastr.error(response.message, "Error!");
+                    }
+                }
+            });
+        });
+    }
+
+    function ActionButton(data, type, row) {
+        var html = '<div class="btn-group">';
+        html += '<a href="@ViewBag.ControllerURL/view?id=' + row.id + '" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>';
+        html += '<a href="@ViewBag.ControllerURL/edit?id=' + row.id + '" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>';
+        html += '<button type="button" class="btn btn-danger btn-sm" onclick=Delete("' + row.id + '")><i class="fa fa-trash"></i></button>';
+        html += '</div>';
+        return html;
+    }
+</script>

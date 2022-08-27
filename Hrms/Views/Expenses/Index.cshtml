@@ -1,0 +1,72 @@
+﻿@section LinkScriptSection{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var columns = [
+                { "data": "id", "name": "ID" },
+                { "data": "expenseType", "name": "ExpenseType" },
+                { "data": "expenseFrom", "name": "ExpenseFrom" },
+                { "data": "expenseTo", "name": "ExpenseTo" },
+                { "data": "expenseDate", "name": "ExpenseDate" },
+                { "data": "expenseYear", "name": "ExpenseYear" },
+                { "data": "expenseMonth", "name": "ExpenseMonth" },
+                { "data": "amount", "name": "Amount" },
+                { "data": "status", "name": "Status" },
+                {
+                    "render": function (data, type, row) { return ActionButton(data, type, row) }
+                }
+                @*{
+                    "render": function (data, type, row) {
+                        return '<div class="btn-group"><a href="@ViewBag.ControllerURL/view?id=' + row.id + '" class="btn btn-primary btn-sm" title="View">' +
+                            '<i class="fa fa-eye"></i>' +
+                            '</a>'
+                            +
+                            '<a href="@ViewBag.ControllerURL/edit?id=' + row.id + '" class="btn btn-success btn-sm" title="Edit">' +
+                            '<i class="fa fa-edit"> </i>' +
+                            '</a>'
+                            +
+                            '<button type="button" class="btn btn-danger btn-sm" onclick=Delete("' + row.id + '"); title="Delete">' +
+                            '<i class="fa fa-trash"></i>' +
+                            '</button></div>'
+                    }
+                }*@
+            ];
+            ServerSideDataTable(columns);
+        })
+    </script>
+}
+
+<div class="col-md-12 mb-4">
+    <div class="card text-left">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 class="text-left">Expenses</h4>
+                </div>
+                <div class="col-md-4">
+                    <a href="@ViewBag.PageURL/add" class="btn btn-primary float-right"><i class="fa fa-plus"></i> | Add New</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="display table table-striped table-hover table-bordered DataGrid" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Expense Type</th>
+                            <th>Expense From</th>
+                            <th>Expense To</th>
+                            <th>Expense Date</th>
+                            <th>Year</th>
+                            <th>Month</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    @await Html.PartialAsync("DataTable")
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

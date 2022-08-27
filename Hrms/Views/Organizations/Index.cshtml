@@ -1,0 +1,47 @@
+﻿@section LinkScriptSection{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var columns = [
+                { "data": "id", "name": "ID" },
+                { "data": "code", "name": "Code" },
+                { "data": "name", "name": "Name" },
+                { "data": "status", "name": "Status" },
+                {
+                    "render": function (data, type, row) { return ActionButton(data, type, row) }
+                }
+            ];
+            ServerSideDataTable(columns);
+        })
+    </script>
+}
+
+<div class="col-md-12 mb-4">
+    <div class="card text-left">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 class="text-left">Organizations</h4>
+                </div>
+                <div class="col-md-4">
+                    <a href="@ViewBag.PageURL/add" class="btn btn-primary float-right"><i class="fa fa-plus"></i> | Add New</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="display table table-striped table-hover table-bordered DataGrid" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    @await Html.PartialAsync("DataTable")
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

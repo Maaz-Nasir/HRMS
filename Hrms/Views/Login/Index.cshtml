@@ -1,0 +1,107 @@
+﻿@model UserAccounts
+@{ 
+    Layout = null;
+}
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login | @ViewBag.WebsiteName</title>
+    <link rel="icon" href="~/Hrms/images/hrms_logo.png">
+    <link href="~/Hrms/fonts/hrmsFont.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/Hrms/css/themes/lite-purple.min.css" rel="stylesheet" asp-append-version="true">
+    <link rel="stylesheet" href="~/Hrms/css/plugins/toastr.css" asp-append-version="true" />
+    <style>
+        #Loader {
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            z-index: 1;
+            display: none;
+            position: fixed;
+            width: 2em;
+            height: 2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner-bubble spinner-bubble-primary m-5" id="Loader"></div>
+    <div class="auth-layout-wrap" style="background-image: url('../../Hrms/images/photo-wide-4.jpg')">
+        <div class="auth-content">
+            <div class="card o-hidden">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="p-4">
+                            <div class="auth-logo text-center mb-4"><img src="~/Hrms/images/hrms_logo.png" alt=""></div>
+                            <h1 class="mb-3 text-18">Sign In</h1>
+                            <form asp-action="UserLogin" autocomplete="off"
+                                  data-ajax-begin="OnBegin" data-ajax-complete="OnSubmit"
+                                  data-ajax-failure="OnFailed" data-ajax-success="OnSuccess"
+                                  data-ajax="true" data-ajax-method="POST" data-ajax-loading="#Loader" id="FormSubmit">
+                                @Html.AntiForgeryToken()
+                                <div class="form-group">
+                                    <label asp-for="Username">Username <span class="text-danger">*</span></label>
+                                    <input class="form-control form-control" asp-for="Username" type="text">
+                                    <span asp-validation-for="Username" class="text-danger pull-left"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Password">Password <span class="text-danger">*</span></label>
+                                    <input class="form-control form-control" asp-for="Password" type="password">
+                                    <span asp-validation-for="Password" class="text-danger pull-left"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox checkbox-primary">
+                                        <input type="checkbox" name="RememberMe"><span>Remember Me</span><span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-rounded btn-primary btn-block mt-2">Sign In</button>
+                            </form>
+                            <div class="mt-3 text-center">
+                                <a class="text-muted" href="#">
+                                    <u>Forgot Password?</u>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center" style="background-size: cover; background-image: url('../../Hrms/images/photo-long-3.jpg')">
+                        <div class="pr-3 auth-right"><a class="btn btn-rounded btn-outline-primary btn-outline-email btn-block btn-icon-text" href="signup.html"><i class="i-Mail-with-At-Sign"></i> Sign up with Email</a><a class="btn btn-rounded btn-outline-google btn-block btn-icon-text"><i class="i-Google-Plus"></i> Sign up with Google</a><a class="btn btn-rounded btn-block btn-icon-text btn-outline-facebook"><i class="i-Facebook-2"></i> Sign up with Facebook</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Hrms/js/plugins/jquery-3.3.1.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/plugins/toastr.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/scripts/toastr.script.min.js" asp-append-version="true"></script>
+    <script src="~/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        OnBegin = function () {
+            $('.btn').attr('disabled', true);
+            $('.auth-layout-wrap').css('opacity', '0.1');
+        }
+        OnSubmit = function () {
+
+        }
+        OnFailed = function (response) {
+            toastr.error(response.message, "Error!");
+        }
+        OnSuccess = function (response) {
+            if (response.success) {
+                toastr.success(response.message, "Success", {
+                    timeOut: "5000"
+                });
+                var currentURL = location.protocol + '//' + location.host + location.pathname + "home";
+                //let url = response.targetURL;
+                $(location).prop('href', currentURL);
+            }
+            else {
+                toastr.error(response.message, "Error!");
+                $('.btn').attr('disabled', false);
+                $('.auth-layout-wrap').css('opacity', '1');
+            }
+        }
+    </script>
+</body>
+</html>
