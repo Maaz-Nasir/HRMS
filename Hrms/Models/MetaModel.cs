@@ -191,6 +191,8 @@ namespace Hrms.Models
         [Required(ErrorMessage = "Required")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Required")]
+        public string EmployeeCodeStart { get; set; }
+        [Required(ErrorMessage = "Required")]
         public string Status { get; set; }
     }
     [ModelMetadataType(typeof(SubscriptionsModelMetaData))]

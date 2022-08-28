@@ -13,11 +13,12 @@
     <div class="col-md-12">
         <form asp-controller="@ViewBag.ControllerURL" asp-action="save" autocomplete="off" data-ajax-begin="OnBegin"
               data-ajax-complete="OnComplete" data-ajax-failure="OnFailed"
-              data-ajax-success="OnSuccess" data-ajax="true" data-ajax-method="post">
+              data-ajax-success="OnSuccess" data-ajax="true" data-ajax-method="post" enctype="multipart/form-data">
             <input asp-for="Id" hidden />
             <input asp-for="CreatedDateTime" hidden />
             <input asp-for="UtcCreatedDateTime" hidden />
             <input asp-for="CreatedBy" hidden />
+            <input asp-for="Logo" hidden />
             <div class="row">
                 <div class="form-group col-md-4">
                     <label asp-for="Code">Code <span class="text-danger">*</span></label>
@@ -28,6 +29,15 @@
                     <label asp-for="Name">Name <span class="text-danger">*</span></label>
                     <input type="text" asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="EmployeeCodeStart">Employee Code Start <span class="text-danger">*</span></label>
+                    <input type="number" asp-for="EmployeeCodeStart" class="form-control" />
+                    <span asp-validation-for="EmployeeCodeStart" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="Image">Logo</label>
+                    <input type="file" name="Image" id="Image" class="form-control" accept=".jpg,.png,.jpeg" />
                 </div>
                 <div class="form-group col-md-4">
                     <label asp-for="Status" class="form-control-label">Status <span class="text-danger">*</span></label>

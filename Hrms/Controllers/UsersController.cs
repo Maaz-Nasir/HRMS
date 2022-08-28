@@ -38,12 +38,17 @@ namespace Hrms.Controllers
                                                 || m.Email.Contains(searchValue)
                                                 || m.Phone.Contains(searchValue)
                                                 || m.Role.Name.Contains(searchValue)
+                                                || m.CreatedDateTime.ToString().Contains(searchValue)
+                                                || m.UpdatedDateTime.ToString().Contains(searchValue)
                                                 || m.Status.Contains(searchValue) && !m.IsDeleted);
                 }
                 recordsTotal = Data.Count();
                 var resultList = Data.Skip(skip).Take(pageSize).ToList();
                 var resultData = from x in resultList.Where(x => x.SubscriptionId == SessionData.SubscriptionId && !x.IsDeleted)
-                                 select new { x.Id, Role = x.Role.Name, x.Name, x.Username, x.Email, x.Status };
+                                 select new { x.Id, Role = x.Role.Name, x.Name, x.Username, x.Email, x.Status,
+                                     CreatedDateTime = Convert.ToDateTime(x.CreatedDateTime).ToString("dd-MMM-yyyy : hh:mm:ss"),
+                                     UpdatedDateTime = x.UpdatedDateTime == null ? "" : Convert.ToDateTime(x.UpdatedDateTime).ToString("dd-MMM-yyyy : hh:mm:ss")
+                                 };
 
                 var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = resultData };
                 return Ok(jsonData);

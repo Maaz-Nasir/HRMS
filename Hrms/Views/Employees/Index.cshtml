@@ -3,6 +3,12 @@
         $(document).ready(function () {
             var columns = [
                 { "data": "id", "name": "ID" },
+                {
+                    "data": "profileImage",
+                    "render": function (data) {
+                        return '<img src="/' + data + '" width="40px" style="border-radius: 50%;">';
+                    }
+                },
                 { "data": "organization", "name": "Organization" },
                 { "data": "country", "name": "Country" },
                 { "data": "city", "name": "City" },
@@ -10,6 +16,8 @@
                 { "data": "firstname", "name": "Firstname" },
                 { "data": "lastname", "name": "Lastname" },
                 { "data": "status", "name": "Status" },
+                { "data": "createdDateTime", "name": "CreatedDateTime" },
+                { "data": "updatedDateTime", "name": "UpdatedDateTime" },
                 {
                     "render": function (data, type, row) { return ActionButton(data, type, row) }
                 }
@@ -24,7 +32,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-8">
-                    <h4 class="text-left">Cities</h4>
+                    <h4 class="text-left">Employees</h4>
                 </div>
                 <div class="col-md-4">
                     <a href="@ViewBag.PageURL/add" class="btn btn-primary float-right"><i class="fa fa-plus"></i> | Add New</a>
@@ -37,6 +45,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Image</th>
                             <th>Organization</th>
                             <th>Country</th>
                             <th>City</th>
@@ -44,6 +53,8 @@
                             <th>Firtname</th>
                             <th>Lastname</th>
                             <th>Status</th>
+                            <th>Created Date</th>
+                            <th>Updated Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>

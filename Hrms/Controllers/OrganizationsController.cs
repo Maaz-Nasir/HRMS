@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Hrms.Models;
 using static Hrms.Helpers.ApplicationHelper;
 using System.Linq.Dynamic.Core;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Hrms.Controllers
 {
@@ -35,7 +37,8 @@ namespace Hrms.Controllers
                 {
                     Data = Data.Where(m => m.Name.Contains(searchValue)
                                                 || m.Code.Contains(searchValue)
-                                                || m.Subscription.Title.Contains(searchValue)
+                                                || m.CreatedDateTime.ToString().Contains(searchValue)
+                                                || m.UpdatedDateTime.ToString().Contains(searchValue)
                                                 || m.Status.Contains(searchValue) && !m.IsDeleted);
                 }
                 recordsTotal = Data.Count();
@@ -44,10 +47,12 @@ namespace Hrms.Controllers
                                  select new
                                  {
                                      x.Id,
-                                     Subscription = x.Subscription.Title,
+                                     x.Logo,
                                      x.Code,
                                      x.Name,
-                                     x.Status
+                                     x.Status,
+                                     CreatedDateTime = Convert.ToDateTime(x.CreatedDateTime).ToString("dd-MMM-yyyy : hh:mm:ss"),
+                                     UpdatedDateTime = x.UpdatedDateTime == null ? "" : Convert.ToDateTime(x.UpdatedDateTime).ToString("dd-MMM-yyyy : hh:mm:ss")
                                  };
 
                 var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = resultData };
@@ -102,11 +107,11 @@ namespace Hrms.Controllers
         }
 
         [HttpPost]
-        public IActionResult Save(Organizations model)
+        public IActionResult Save(Organizations model, IFormFile Image)
         {
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = false;
-            UserSessionData SessionData = GetUserData(this);
+            UserSessionData UserRecord = GetUserData(this);
             try
             {
                 if (IsUserLogin(this))
@@ -114,21 +119,62 @@ namespace Hrms.Controllers
                     bool isAddOrUpdate = true;
                     if (isAddOrUpdate)
                     {
-                        model.SubscriptionId = SessionData.SubscriptionId;
+                        string FilePath = "";
+                        if (Image != null)
+                        {
+                            string fileName = Image.FileName;
+                            string path = Path.Combine(ViewBag.WebRootPath, OrganizationLogoFilePath, fileName);
+                            if (System.IO.File.Exists(path))
+                            {
+                                fileName = CreateFileName(Path.GetFileNameWithoutExtension(fileName)) + Path.GetExtension(fileName).ToLower();
+                                path = Path.Combine(ViewBag.WebRootPath, OrganizationLogoFilePath, fileName);
+                            }
+                            using (var stream = new FileStream(path, FileMode.Create))
+                            {
+                                Image.CopyTo(stream);
+                            }
+                            FilePath = OrganizationLogoFilePath + "/" + fileName;
+                        }
+                        model.SubscriptionId = UserRecord.SubscriptionId;
                         if (model.Id == 0)
                         {
-                            model.CreatedBy = SessionData.UserId;
-                            model.CreatedDateTime = GetDateTime(SessionData.SubscriptionTimeZone);
+                            model.CreatedBy = UserRecord.UserId;
+                            model.CreatedDateTime = GetDateTime(UserRecord.SubscriptionTimeZone);
                             model.UtcCreatedDateTime = GetUtcDateTime();
+                            if (FilePath != "")
+                            {
+                                model.Logo = FilePath;
+                            }
                             dbContext.Organizations.Add(model);
+                            List<string> roleNames = new List<string>()
+                            {
+                                EnumOrganizationRoles.Admin,
+                                EnumOrganizationRoles.Employee
+                            };
+                            foreach (var property in roleNames)
+                            {
+                                Roles role = new Roles();
+                                role.Name = property.ToString();
+                                role.SubscriptionId = UserRecord.SubscriptionId;
+                                role.OrganizationId = model.Id;
+                                role.CreatedBy = UserRecord.UserId;
+                                role.CreatedDateTime = GetDateTime(UserRecord.SubscriptionTimeZone);
+                                role.UtcCreatedDateTime = GetUtcDateTime();
+                                role.IsEditable = true;
+                                dbContext.Roles.Add(role);
+                            }
                             ajaxResponse.Success = true;
                             ajaxResponse.Message = "Record Saved Successfully";
                         }
                         else
                         {
-                            model.UpdatedBy = SessionData.UserId;
-                            model.UpdatedDateTime = GetDateTime(SessionData.SubscriptionTimeZone);
+                            model.UpdatedBy = UserRecord.UserId;
+                            model.UpdatedDateTime = GetDateTime(UserRecord.SubscriptionTimeZone);
                             model.UtcUpdatedDateTime = GetUtcDateTime();
+                            if (FilePath != "")
+                            {
+                                model.Logo = FilePath;
+                            }
                             dbContext.Organizations.Update(model);
                             ajaxResponse.Success = true;
                             ajaxResponse.Message = "Record Updated Successfully";

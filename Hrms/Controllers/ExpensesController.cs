@@ -41,6 +41,8 @@ namespace Hrms.Controllers
                                                 || m.Amount.ToString().Contains(searchValue)
                                                 || m.Organization.Name.Contains(searchValue)
                                                 || m.ExpenseType.Name.Contains(searchValue)
+                                                || m.CreatedDateTime.ToString().Contains(searchValue)
+                                                || m.UpdatedDateTime.ToString().Contains(searchValue)
                                                 || m.Status.Contains(searchValue) && !m.IsDeleted);
                 }
                 recordsTotal = Data.Count();
@@ -48,7 +50,10 @@ namespace Hrms.Controllers
                 var resultData = from x in resultList.Where(x => x.SubscriptionId == SessionData.SubscriptionId && !x.IsDeleted)
                                  select new { x.Id, ExpenseType = x.ExpenseType.Name, Organization = x.Organization.Name, x.ExpenseFrom,
                                      x.ExpenseTo, ExpenseDate = Convert.ToDateTime(x.ExpenseDate).ToString("dd-MMM-yyyy"), x.ExpenseYear, 
-                                     x.ExpenseMonth, x.Amount, x.Status };
+                                     x.ExpenseMonth, x.Amount, x.Status,
+                                     CreatedDateTime = Convert.ToDateTime(x.CreatedDateTime).ToString("dd-MMM-yyyy : hh:mm:ss"),
+                                     UpdatedDateTime = x.UpdatedDateTime == null ? "" : Convert.ToDateTime(x.UpdatedDateTime).ToString("dd-MMM-yyyy : hh:mm:ss")
+                                 };
 
                 var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = resultData };
                 return Ok(jsonData);

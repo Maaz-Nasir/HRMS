@@ -40,12 +40,19 @@ namespace Hrms.Controllers
                                                 || Convert.ToString(m.StartDate).Contains(searchValue)
                                                 || Convert.ToString(m.EndDate).Contains(searchValue)
                                                 || Convert.ToString(m.NoOfMonth).Contains(searchValue)
+                                                || m.CreatedDateTime.ToString().Contains(searchValue)
+                                                || m.UpdatedDateTime.ToString().Contains(searchValue)
                                                 || m.Status.Contains(searchValue) && !m.IsDeleted);
                 }
                 recordsTotal = Data.Count();
                 var resultList = Data.Skip(skip).Take(pageSize).ToList();
                 var resultData = from x in resultList.Where(x => !x.IsDeleted)
-                                 select new { x.Id, Country = x.Country.Name, x.TimeZoneId, x.Code, x.Title, StartDate = Convert.ToDateTime(x.StartDate).ToString("dd-MMM-yyyy"), EndDate = Convert.ToDateTime(x.EndDate).ToString("dd-MMM-yyyy"), x.NoOfMonth, x.Status };
+                                 select new { x.Id, Country = x.Country.Name, x.TimeZoneId, x.Code, x.Title, 
+                                     StartDate = Convert.ToDateTime(x.StartDate).ToString("dd-MMM-yyyy"), EndDate = Convert.ToDateTime(x.EndDate).ToString("dd-MMM-yyyy"),
+                                     x.NoOfMonth, x.Status,
+                                     CreatedDateTime = Convert.ToDateTime(x.CreatedDateTime).ToString("dd-MMM-yyyy : hh:mm:ss"),
+                                     UpdatedDateTime = x.UpdatedDateTime == null ? "" : Convert.ToDateTime(x.UpdatedDateTime).ToString("dd-MMM-yyyy : hh:mm:ss")
+                                 };
 
                 var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = resultData };
                 return Ok(jsonData);

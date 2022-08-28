@@ -31,6 +31,7 @@ namespace Hrms.Helpers
         public const string EncryptKey = "FCSystem";
         public const string Website_Date_Format = "dd/MM/yyyy";
         public const string UserProfileImageFilePath = "uploads/profileimages";
+        public const string OrganizationLogoFilePath = "uploads/organizationlogos";
         #endregion
         #region Enum Helper
         public static class EnumPageType

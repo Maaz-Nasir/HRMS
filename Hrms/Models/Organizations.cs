@@ -33,6 +33,7 @@ namespace Hrms.Models
         public bool IsDeleted { get; set; }
         public int? DeletedBy { get; set; }
         public DateTime? DeletedDate { get; set; }
+        public string Logo { get; set; }
 
         public virtual Subscriptions Subscription { get; set; }
         public virtual ICollection<Cities> Cities { get; set; }
