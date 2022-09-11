@@ -22,9 +22,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
     <link href="~/Hrms/css/hrms.css" rel="stylesheet" />
     <style>
-        .DropDowns {
+/*        .DropDowns {
             margin-left: -450px;
-        }
+        }*/
     </style>
 </head>
 
@@ -32,7 +32,9 @@
     <div class="app-admin-wrap layout-sidebar-large">
         <div class="main-header">
             <div class="logo">
-                <img src="~/Hrms/images/hrms_logo.png" alt="">
+                <a href="@string.Concat(ViewBag.WebsiteURL,"home")">
+                    <img src="~/Hrms/images/hrms_logo.png" alt="">
+                </a>
             </div>
             <div class="menu-toggle">
                 <div></div>
@@ -43,7 +45,7 @@
                 <div class="DropDowns">
                 @if (ViewBag.SubscriptionRecords != null)
                 {
-                    <select class="form-control" style="width:280px;" id="subscription_input" data-href="/home/SetSubscription">
+                    <select class="form-control" style="width:180px;" id="subscription_input" data-href="/home/SetSubscription">
                         @foreach (Subscriptions rec in ViewBag.SubscriptionRecords)
                         {
                             bool selected_option = false;
@@ -68,7 +70,7 @@
 
                 @if (ViewBag.SubscriptionOrganizationRecords != null)
                 {
-                    <select class="form-control changeOrganization" style="width:280px;" id="organization_input">
+                    <select class="form-control changeOrganization" style="width:180px;" id="organization_input">
                         @foreach (Organizations rec in ViewBag.SubscriptionOrganizationRecords)
                         {
                             <option value="@rec.Id">@rec.Name</option>
@@ -177,8 +179,8 @@
                 </div>
             </div>
         </div>
-
-        <div class="side-content-wrap">
+    @Html.Raw(ViewBag.Menu)
+        @*<div class="side-content-wrap">
             <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar="" data-suppress-scroll-x="true">
                 <ul class="navigation-left">
                     <li class="nav-item" data-item="dashboard">
@@ -211,19 +213,19 @@
                 </ul>
             </div>
             <div class="sidebar-overlay"></div>
-        </div>
+        </div>*@
         <!-- =============== Left side End ================-->
         <div class="main-content-wrap sidenav-open d-flex flex-column">
             <!-- ============ Body content start ============= -->
             <div class="main-content">
-                <div class="breadcrumb">
+                @*<div class="breadcrumb">
                     <h1 class="mr-2">HRMS</h1>
                     <ul>
                         <li><a href="@ViewBag.ControllerURL">@ViewBag.ControllerURL.ToUpper()</a></li>
                         <li>Dashboard</li>
                     </ul>
-                </div>
-                <div class="separator-breadcrumb border-top"></div>
+                </div>*@
+            @Html.Raw(ViewBag.BreadCrumbHTML)
                 @RenderBody()
                 <!-- end of row-->
                 <!-- end of main-content -->
@@ -268,10 +270,10 @@
     <script src="~/Hrms/js/plugins/datatables.min.js" asp-append-version="true"></script>
     <script src="~/Hrms/js/scripts/datatables.script.min.js" asp-append-version="true"></script>
     <script src="~/Hrms/js/Hrms.js" asp-append-version="true"></script>
-    <script src="~/Hrms/DatetimePicker/DateTimePicker.js"></script>
-    <script src="~/Hrms/js/scripts/sweetalert.script.min.js"></script>
-    <script src="~/Hrms/js/plugins/sweetalert2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="~/Hrms/DatetimePicker/DateTimePicker.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/scripts/sweetalert.script.min.js" asp-append-version="true"></script>
+    <script src="~/Hrms/js/plugins/sweetalert2.min.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" asp-append-version="true"></script>
     @if (IsSectionDefined("LinkScriptSection"))
     {
 @RenderSection("LinkScriptSection");

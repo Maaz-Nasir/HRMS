@@ -391,7 +391,6 @@ E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\Roles\Form.cshtml.g.cs
 E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\Roles\Index.cshtml.g.cs
 E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\Shared\DataTable.cshtml.g.cs
 E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
-E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\Subscriptions\Form.cshtml.g.cs
 E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\Subscriptions\Index.cshtml.g.cs
@@ -401,3 +400,5 @@ E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
 E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
 E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Hrms.RazorTargetAssemblyInfo.cs
 E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Hrms.Views.pdb
+E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
+E:\Hrms\Hrms\Hrms\obj\Debug\netcoreapp3.1\Razor\Views\Home\Unauthorized.cshtml.g.cs

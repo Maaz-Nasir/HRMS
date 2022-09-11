@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Menus\Form.cshtml" />
+    <Content Remove="Views\Menus\Index.cshtml" />
     <Content Remove="Views\Employees\Form.cshtml" />
     <Content Remove="Views\Employees\Index.cshtml" />
     <Content Remove="Views\Departments\Form.cshtml" />
@@ -20,6 +22,8 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="Views\Menus\Form.cshtml" />
+    <None Include="Views\Menus\Index.cshtml" />
     <None Include="Views\Employees\Form.cshtml" />
     <None Include="Views\Employees\Index.cshtml" />
     <None Include="Views\Departments\Form.cshtml" />

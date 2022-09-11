@@ -3,14 +3,13 @@
         $(document).ready(function () {
             var columns = [
                 { "data": "id", "name": "ID" },
-                { "data": "organization", "name": "Organization" },
-                { "data": "country", "name": "Country" },
-                { "data": "region", "name": "Region" },
-                { "data": "code", "name": "Code" },
+                { "data": "parent", "name": "Parent" },
                 { "data": "name", "name": "Name" },
-                { "data": "status", "name": "Status" },
+                { "data": "type", "name": "Type" },
+                { "data": "accessUrl", "name": "AccessUrl" },
+                { "data": "icon", "name": "Icon" },
+                { "data": "sequenceOrder", "name": "SequenceOrder" },
                 { "data": "createdDateTime", "name": "CreatedDateTime" },
-                { "data": "updatedDateTime", "name": "UpdatedDateTime" },
                 {
                     "render": function (data, type, row) { return ActionButton(data, type, row) }
                 }
@@ -29,14 +28,13 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Organization</th>
-                            <th>Country</th>
-                            <th>Region</th>
-                            <th>Code</th>
+                            <th>Parent</th>
                             <th>Name</th>
-                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Access URL</th>
+                            <th>Icon</th>
+                            <th>Sequence</th>
                             <th>Created Date</th>
-                            <th>Updated Date</th>
                             <th>Action</th>
                         </tr>
                     </thead>

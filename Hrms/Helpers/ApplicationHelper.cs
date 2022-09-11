@@ -468,45 +468,9 @@ namespace Hrms.Helpers
         public static List<string> AllowedLink()
         {
             List<string> PageList = new List<string>();
-            PageList.Add("dashboard");
-            PageList.Add("dashboard/logout");
-            PageList.Add("dashboard/profile");
-            PageList.Add("dashboard/employeeprofile");
-            PageList.Add("dashboard/accessunauthorized");
-            PageList.Add("dashboard/changepassword");
-            PageList.Add("employees/downloaddefaultdataformat");
-            PageList.Add("payrolls/downloaddefaultdataformat");
-            PageList.Add("payrolls/downloadorganizationallowanceformat");
-            PageList.Add("employeeleaves/downloadattachements");
-            PageList.Add("leaves/downloadattachements");
-            PageList.Add("employeeexpenses/downloadattachements");
-            PageList.Add("travelexpenses/downloadattachements");
-            PageList.Add("employeeleaves/downloadattachements");
-            PageList.Add("advancesalaries/downloadattachements");
-            PageList.Add("loans/downloadattachements");
-            PageList.Add("employeeloans/downloadattachements");
-            PageList.Add("attendancereport/orgattendanceexport");
-            PageList.Add("attendancereport/getdeviceattandancereport");
-            PageList.Add("attendancereport/ExportTopdf");
-            PageList.Add("rosters/downloaddefaultdataformat");
-            PageList.Add("monthlyattendance/downloaddefaultdataformat");
-            PageList.Add("employees/downloaddefaultemployeesformat");
-            PageList.Add("employeetaxdeductions/downloadattachements");
-            PageList.Add("employeetaxadjustables/downloadattachements");
-            PageList.Add("taxdeductions/downloadattachements");
-            PageList.Add("taxadjustables/downloadattachements");
-            PageList.Add("notes/downloadattachements");
-            PageList.Add("employeenotes/downloadattachements");
-            PageList.Add("employeeannouncementcontents/employeeannouncementdetail");
-            PageList.Add("employeeletters");
-            PageList.Add("vacancies/review");
-            PageList.Add("vacancies/applicationdetail");
-            PageList.Add("vacancies/downloadattachements");
-            PageList.Add("organizationclearancereviews/downloadattachements");
-            PageList.Add("vacancyapplicationinterview/candidatedetail");
-            PageList.Add("employeevacancies/review");
-            PageList.Add("employeevacancies/applicationdetail");
-            PageList.Add("employeevacancies/downloadattachements");
+            PageList.Add("home");
+            PageList.Add("home/logout");
+            PageList.Add("home/unauthorized");
             return PageList;
         }
         #endregion
@@ -558,6 +522,13 @@ namespace Hrms.Helpers
             Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
             return regex.IsMatch(EmailAddress);
         }
+        public static string FirstCharToUpper(this string input) =>
+        input switch
+        {
+            null => throw new ArgumentNullException(nameof(input)),
+            "" => throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input)),
+            _ => string.Concat(input[0].ToString().ToUpper(), input.AsSpan(1))
+        };
         #endregion
     }
 }

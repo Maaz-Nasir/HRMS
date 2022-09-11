@@ -81,5 +81,10 @@ namespace Hrms.Controllers
             }
             return Json(ajaxResponse);
         }
+        public IActionResult Unauthorized()
+        {
+            ViewBag.WebsiteURL = GetSettingContentByName(dbContext, "Website URL");
+            return View();
+        }
     }
 }

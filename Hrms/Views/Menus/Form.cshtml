@@ -1,0 +1,298 @@
+﻿@model Menus
+@using static Hrms.Helpers.ApplicationHelper
+@section LinkScriptSection{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@ViewBag.PageType' == '@EnumPageType.View') {
+                DisabledView();
+            }
+            if ('@Model.Id' > 0) {
+                $(document).ready(function () {
+                    $(".DataGrid").DataTable({
+                        dom: '<""<"row"<"col"l><"col"B><"col"f>>>rtip',
+                        "processing": true,
+                        "language": {
+                            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span> '
+                        },
+                        "serverSide": true,
+                        "searchable": true,
+                        "filter": true,
+                        "ajax": {
+                            "url": "@ViewBag.PageURL/MenuPermissionListener?id=@Model.Id",
+                            "type": "post",
+                            "datatype": "json"
+                        },
+                        "columnDefs": [{
+                            "targets": [0],
+                            "visible": false,
+                            "searchable": false,
+                        }],
+                        "columns": [
+                            { "data": "id", "name": "ID" },
+                            { "data": "menu", "name": "Menu" },
+                            { "data": "name", "name": "Name" },
+                            { "data": "ptype", "name": "Ptype" },
+                            { "data": "type", "name": "Type" },
+                            { "data": "sequenceOrder", "name": "SequenceOrder" },
+                            { "data": "createdDateTime", "name": "CreatedDateTime" },
+                            {
+                                "render": function (data, type, row) {
+                                    return '<div class="btn-group"><button type="button" onclick=GetRecord("' + row.id + '","false"); class="btn btn-primary btn-sm" title="View">' +
+                                        '<i class="fa fa-eye"></i>' +
+                                        '</button>'
+                                        +
+                                        '<button type="button" class="btn btn-success btn-sm" onclick=GetRecord("' + row.id + '","true"); title="Edit">' +
+                                        '<i class="fa fa-edit"> </i>' +
+                                        '</button>'
+                                        +
+                                        '<button type="button" class="btn btn-danger btn-sm" onclick=Delete("' + row.id + '"); title="Delete">' +
+                                        '<i class="fa fa-trash"></i>' +
+                                        '</button></div>'
+                                }
+                            },
+                        ],
+                        "lengthMenu": [[25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 1000, 1500, 2000, 3000, 4000, 5000], [25, 50, 75, 100, 150, 200, 250, 300, 400, 500, 1000, 1500, 2000, 3000, 4000, 5000]]
+                    });
+                })
+            }
+        });
+        OnFormSuccess = function (response) {
+            if (response.success) {
+                toastr.success(response.message, "Success", {
+                    timeOut: "5000"
+                });
+                $('.bd-example-modal-lg').modal('hide');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1000);
+            }
+            else {
+                toastr.error(response.message, "Error!");
+                $('.bd-example-modal-lg').modal('hide');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1000);
+            }
+        }
+        function GetRecord(id, isEdit) {
+            var paramObj = {
+                url: '/menus/GetMenuPermissionRecord',
+                type: 'get',
+                data: { Id: id }
+            };
+            AjaxGenericCalls.ajaxRequest(paramObj).then(function (resp) {
+                EnableDisableControlled(isEdit);
+                FillTextBox(resp.id, resp.name, resp.ptype, resp.type, resp.sequenceOrder, resp.createdDateTime, resp.utcCreatedDateTime, resp.createdBy);
+                $('.bd-example-modal-lg').modal('show');
+            }).catch(function () {
+            });
+        }
+        function FillTextBox(Id, Name, PType, Type, Sequence, CreatedDate, UtcCreatedDate, CreateBy) {
+            $('#PermissionName').select2('destroy');
+            $('#PType').select2('destroy');
+            $('#Types').select2('destroy');
+            $('#ChildId').val(Id);
+            $('#PermissionName').val(Name);
+            $('#PType').val(PType);
+            $('#Types').val(Type);
+            $('#Sequence').val(Sequence);
+            $('#CDate').val(CreatedDate);
+            $('#UCDate').val(UtcCreatedDate);
+            $('#CB').val(CreateBy);
+            $('#PermissionName').select2();
+            $('#PType').select2();
+            $('#Types').select2();
+        }
+        function EnableDisableControlled(status) {
+            if (status == 'true') {
+                $('#PermissionName').attr('disabled', false);
+                $('#PType').attr('disabled', false);
+                $('#Types').attr('disabled', false);
+                $('#Sequence').attr('disabled', false);
+                $('.btnChildGrid').attr('disabled', false);
+            }
+            else {
+                $('#PermissionName').attr('disabled', true);
+                $('#PType').attr('disabled', true);
+                $('#Types').attr('disabled', true);
+                $('#Sequence').attr('disabled', true);
+                $('.btnChildGrid').attr('disabled', true);
+            }
+        }
+        function ResetForm() {
+            $('#PermissionName').select2('destroy');
+            $('#PType').select2('destroy');
+            $('#Types').select2('destroy');
+            $('#ChildId').val('');
+            $('#PermissionName').val('');
+            $('#PType').val('');
+            $('#Types').val('');
+            $('#Sequence').val('');
+            $('#CDate').val('');
+            $('#UCDate').val('');
+            $('#CB').val('');
+            $('#PermissionName').select2();
+            $('#PType').select2();
+            $('#Types').select2();
+        }
+    </script>
+}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <form asp-controller="@ViewBag.ControllerURL" asp-action="save" autocomplete="off" data-ajax-begin="OnBegin"
+              data-ajax-complete="OnComplete" data-ajax-failure="OnFailed"
+              data-ajax-success="OnSuccess" data-ajax="true" data-ajax-method="post">
+            <input asp-for="Id" hidden />
+            <input asp-for="CreatedDateTime" hidden />
+            <input asp-for="UtcCreatedDateTime" hidden />
+            <input asp-for="CreatedBy" hidden />
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label asp-for="ParentId" class="form-control-label">Parent <span class="text-danger">*</span></label>
+                    <select asp-for="ParentId" class="form-control">
+                        <option value="">--Select--</option>
+                        @if (ViewBag.MenuRecords != null)
+                        {
+                            foreach (var rec in ViewBag.MenuRecords)
+                            {
+                                <option value="@rec.Id">@rec.Name</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="ParentId" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Name">Name <span class="text-danger">*</span></label>
+                    <input type="text" asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Type" class="form-control-label">Type <span class="text-danger">*</span></label>
+                    <select class="form-control" asp-for="Type">
+                        <option value="Both">Both</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Employee">Employee</option>
+                    </select>
+                    <span asp-validation-for="Type" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="Icon" class="form-control-label">Icon <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" asp-for="Icon" placeholder="Icon">
+                    <span asp-validation-for="Icon" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="AccessUrl" class="form-control-label">Access Url <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" asp-for="AccessUrl" placeholder="Access Url">
+                    <span asp-validation-for="AccessUrl" class="text-danger pull-left"></span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label asp-for="SequenceOrder" class="form-control-label">Sequence Order <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" asp-for="SequenceOrder" placeholder="Icon">
+                    <span asp-validation-for="SequenceOrder" class="text-danger pull-left"></span>
+                </div>
+                <div class="col-md-12">
+                    @if (ViewBag.PageType != EnumPageType.View)
+                    {
+                        <button type="submit" class="btn btn-primary float-right btn-save"><i class="fa fa-save"></i> | Save</button>
+                    }
+                    <a type="button" href="/@ViewBag.ControllerURL" class="btn btn-dark float-right btn-back"><i class="fa fa-arrow-left"></i> | Back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@if (Model.Id > 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h4>Menu Permissions</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary float-right" onclick="EnableDisableControlled('true');ResetForm()" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fa fa-plus"></i> | Add New</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="display table table-striped table-hover table-bordered DataGrid" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Menu</th>
+                                <th>Name</th>
+                                <th>Parent Type</th>
+                                <th>Type</th>
+                                <th>Sequence</th>
+                                <th>Created Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Menu Permission</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" onclick="EnableDisableControlled('true');ResetForm()">×</span></button>
+            </div>
+            <form asp-controller="@ViewBag.ControllerURL" asp-action="SaveMenuPermission" autocomplete="off" data-ajax-begin="OnBegin"
+                  data-ajax-complete="OnComplete" data-ajax-failure="OnFailed"
+                  data-ajax-success="OnFormSuccess" data-ajax="true" data-ajax-method="post">
+                <input name="Id" id="ChildId" type="hidden" />
+                <input name="MenuId" type="hidden" value="@Model.Id" />
+                <input name="CreatedDateTime" id="CDate" type="hidden" />
+                <input name="UtcCreatedDateTime" id="UCDate" type="hidden" />
+                <input name="CreatedBy" id="CB" type="hidden" />
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="PermissionName" class="form-control-label">Name <span class="text-danger">*</span></label>
+                            <select class="form-control" name="Name" id="PermissionName" style="width:100%">
+                                <option value="">--Select--</option>
+                                <option value="None">None</option>
+                                <option value="All">All</option>
+                                <option value="Add">Add</option>
+                                <option value="Edit">Edit</option>
+                                <option value="Delete">Delete</option>
+                                <option value="View">View</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="PType" class="form-control-label">Parent Type <span class="text-danger">*</span></label>
+                            <select class="form-control" name="PType" id="PType" style="width:100%">
+                                <option value="">--Select--</option>
+                                <option value="Both">Both</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Employee">Employee</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="Type" class="form-control-label">Type <span class="text-danger">*</span></label>
+                            <select class="form-control" name="Type" id="Types" style="width:100%">
+                                <option value="">--Select--</option>
+                                <option value="R">R</option>
+                                <option value="C">C</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="Sequence" class="form-control-label">Sequence <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" name="SequenceOrder" id="Sequence">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal" onclick="EnableDisableControlled('true');ResetForm()">Close</button>
+                    <button class="btn btn-primary ml-2 btnChildGrid" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

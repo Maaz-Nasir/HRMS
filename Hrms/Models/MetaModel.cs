@@ -8,6 +8,23 @@ using System.Threading.Tasks;
 
 namespace Hrms.Models
 {
+    [ModelMetadataType(typeof(MenusModelMetaData))]
+    public partial class Menus
+    {
+    }
+    public class MenusModelMetaData
+    {
+        [Required(ErrorMessage = "Required")]
+        public string Name { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string Type { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string Icon { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string AccessUrl { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string SequenceOrder { get; set; }
+    }
     [ModelMetadataType(typeof(EmployeesModelMetaData))]
     public partial class Employees
     {
